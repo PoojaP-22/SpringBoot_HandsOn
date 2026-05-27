@@ -2,6 +2,7 @@ package com.eduhub.eduhub_backend.Exception;
 
 import java.time.LocalDateTime;
 
+//Template for custom exception
 public class ErrorResponse {
     private LocalDateTime timestamp;
     private int status;

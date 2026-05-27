@@ -32,13 +32,24 @@ public class UniversityController {
     @GetMapping("/code/{courseCode}")
     public ResponseEntity<?> getCourseByCode(@PathVariable int courseCode) {
 
+        if(courseCode <= 0){
+            throw new IllegalArgumentException(
+                    "Course code must be greater than 0"
+
+            );
+        }
         for (University course : courseList) {
             if (course.getId() == courseCode) {
                 return ResponseEntity.ok(course);
             }
         }
 
-        return ResponseEntity.badRequest().body("Course not found");
+        throw new ResourceNotFoundException(
+                "Course",
+                "courseCode",
+                String.valueOf(courseCode)
+        );
+        //return ResponseEntity.badRequest().body("Course not found");
     }
 
     // Get Course using RequestParam
@@ -51,13 +62,23 @@ public class UniversityController {
             }
         }
 
-        return ResponseEntity.badRequest().body("Course not found");
+        throw new ResourceNotFoundException(
+                "Course",
+                "courseCode",
+                String.valueOf(code)
+        );
+       // return ResponseEntity.badRequest().body("Course not found");
     }
 
     // Add New Course
     @PostMapping("/add")
     public ResponseEntity<String> addCourse(@RequestBody University university) {
 
+        if (university.getCredit() <= 0) {
+            throw new IllegalArgumentException(
+                    "Credit must be greater than 0"
+            );
+        }
         courseList.add(university);
 
         return ResponseEntity.ok("Course Added Successfully");
@@ -79,8 +100,12 @@ public class UniversityController {
                 return ResponseEntity.ok(course);
             }
         }
-
-        return ResponseEntity.badRequest().body("Course not found");
+        throw new ResourceNotFoundException(
+                "Course",
+                "courseCode",
+                String.valueOf(courseCode)
+        );
+       // return ResponseEntity.badRequest().body("Course not found");
     }
 
     // Delete Course
@@ -96,8 +121,12 @@ public class UniversityController {
                 return ResponseEntity.ok("Course Deleted Successfully");
             }
         }
-
-        return ResponseEntity.badRequest().body("Course not found");
+        throw new ResourceNotFoundException(
+                "Course",
+                "courseCode",
+                String.valueOf(courseCode)
+        );
+        //return ResponseEntity.badRequest().body("Course not found");
     }
 
 
@@ -110,5 +139,4 @@ public class UniversityController {
                 "999"
         );
     }
-    
 }

@@ -28,4 +28,19 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(error,HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ErrorResponse> handleIndexError(
+            IllegalArgumentException ex,
+            HttpServletRequest request ){
+
+        ErrorResponse error = new ErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                ex.getMessage(),
+                "IllegalArgument",
+                request.getRequestURI()
+        );
+        return new ResponseEntity<>(error,HttpStatus.BAD_REQUEST);
+    }
 }
