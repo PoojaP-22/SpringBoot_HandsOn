@@ -1,6 +1,7 @@
 package com.eduhub.eduhub_backend.Controller;
 
 import com.eduhub.eduhub_backend.Component.University;
+import com.eduhub.eduhub_backend.Exception.ResourceNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +24,7 @@ public class UniversityController {
     // Get all Course
     @GetMapping("/course")
     public ResponseEntity<List<University>> getAllCourse(){
+
         return ResponseEntity.ok(courseList);
     }
 
@@ -98,4 +100,15 @@ public class UniversityController {
         return ResponseEntity.badRequest().body("Course not found");
     }
 
+
+    @GetMapping("/test-exception")
+    public String testException() {
+
+        throw new ResourceNotFoundException(
+                "Course",
+                "courseCode",
+                "999"
+        );
+    }
+    
 }
