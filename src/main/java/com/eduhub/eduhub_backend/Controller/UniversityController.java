@@ -1,142 +1,63 @@
 package com.eduhub.eduhub_backend.Controller;
 
 import com.eduhub.eduhub_backend.Component.University;
-import com.eduhub.eduhub_backend.Exception.ResourceNotFoundException;
+import com.eduhub.eduhub_backend.Service.UniversityService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 public class UniversityController {
 
-    static List<University> courseList = new ArrayList<>();
+    @Autowired
+    private UniversityService universityService;
 
-    static {
-        courseList.add(new University(101, "Java", 4));
-        courseList.add(new University(102, "Python", 3));
-        courseList.add(new University(103, "DBMS", 4));
-        courseList.add(new University(104, "Spring Boot", 5));
-        courseList.add(new University(105, "Data Structures", 4));
-    }
-
-    // Get all Course
     @GetMapping("/course")
-    public ResponseEntity<List<University>> getAllCourse(){
-
-        return ResponseEntity.ok(courseList);
+    public ResponseEntity<List<University>> getAllCourse() {
+        return ResponseEntity.ok(
+                universityService.getAllCourses()
+        );
     }
 
-    // Get Course using PathVariable
     @GetMapping("/code/{courseCode}")
-    public ResponseEntity<?> getCourseByCode(@PathVariable int courseCode) {
+    public ResponseEntity<University> getCourseByCode(
+            @PathVariable int courseCode) {
 
-        if(courseCode <= 0){
-            throw new IllegalArgumentException(
-                    "Course code must be greater than 0"
-
-            );
-        }
-        for (University course : courseList) {
-            if (course.getId() == courseCode) {
-                return ResponseEntity.ok(course);
-            }
-        }
-
-        throw new ResourceNotFoundException(
-                "Course",
-                "courseCode",
-                String.valueOf(courseCode)
+        return ResponseEntity.ok(
+                universityService.getCourseByCode(courseCode)
         );
-        //return ResponseEntity.badRequest().body("Course not found");
     }
 
-    // Get Course using RequestParam
-    @GetMapping("/search")
-    public ResponseEntity<?> getCourseByRequestParam(@RequestParam int code) {
-
-        for (University course : courseList) {
-            if (course.getId() == code) {
-                return ResponseEntity.ok(course);
-            }
-        }
-
-        throw new ResourceNotFoundException(
-                "Course",
-                "courseCode",
-                String.valueOf(code)
-        );
-       // return ResponseEntity.badRequest().body("Course not found");
-    }
-
-    // Add New Course
     @PostMapping("/add")
-    public ResponseEntity<String> addCourse(@RequestBody University university) {
+    public ResponseEntity<University> addCourse(
+            @RequestBody University university) {
 
-        if (university.getCredit() <= 0) {
-            throw new IllegalArgumentException(
-                    "Credit must be greater than 0"
-            );
-        }
-        courseList.add(university);
-
-        return ResponseEntity.ok("Course Added Successfully");
+        return ResponseEntity.ok(
+                universityService.addCourse(university)
+        );
     }
 
-    // Update Course
     @PutMapping("/update/{courseCode}")
-    public ResponseEntity<?> updateCourse(
+    public ResponseEntity<University> updateCourse(
             @PathVariable int courseCode,
             @RequestBody University updatedCourse) {
 
-        for (University course : courseList) {
-
-            if (course.getId() == courseCode) {
-
-                course.setName(updatedCourse.getName());
-                course.setCredit(updatedCourse.getCredit());
-
-                return ResponseEntity.ok(course);
-            }
-        }
-        throw new ResourceNotFoundException(
-                "Course",
-                "courseCode",
-                String.valueOf(courseCode)
+        return ResponseEntity.ok(
+                universityService.updateCourse(
+                        courseCode,
+                        updatedCourse
+                )
         );
-       // return ResponseEntity.badRequest().body("Course not found");
     }
 
-    // Delete Course
     @DeleteMapping("/delete/{courseCode}")
-    public ResponseEntity<String> deleteCourse(@PathVariable int courseCode) {
+    public ResponseEntity<String> deleteCourse(
+            @PathVariable int courseCode) {
 
-        for (University course : courseList) {
-
-            if (course.getId() == courseCode) {
-
-                courseList.remove(course);
-
-                return ResponseEntity.ok("Course Deleted Successfully");
-            }
-        }
-        throw new ResourceNotFoundException(
-                "Course",
-                "courseCode",
-                String.valueOf(courseCode)
-        );
-        //return ResponseEntity.badRequest().body("Course not found");
-    }
-
-
-    @GetMapping("/test-exception")
-    public String testException() {
-
-        throw new ResourceNotFoundException(
-                "Course",
-                "courseCode",
-                "999"
+        return ResponseEntity.ok(
+                universityService.deleteCourse(courseCode)
         );
     }
 }
