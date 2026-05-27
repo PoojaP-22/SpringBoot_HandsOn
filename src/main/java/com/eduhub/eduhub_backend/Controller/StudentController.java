@@ -52,4 +52,24 @@ public class StudentController {
         System.out.println(student.getLastName());
         return ResponseEntity.ok(student);
     }
+
+
+//    @PutMapping("/update")
+//    public ResponseEntity<String> updateStudent(){
+//        return ResponseEntity.accepted().body("Not Found");
+//    }
+
+    @PutMapping ("{id}/update")
+    public ResponseEntity<Student> updateStudent(
+            @PathVariable("id") int studentId,
+            @RequestBody Student student) {
+        return ResponseEntity.accepted().body(student);
+    }
+
+    @DeleteMapping("{id}/delete")
+    public ResponseEntity<String> deleteStudent(
+            @PathVariable("id") int studentId){
+        return ResponseEntity.accepted().body("Data removed successfully");
+    }
+
 }
