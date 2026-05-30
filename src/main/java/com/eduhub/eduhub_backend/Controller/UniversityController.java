@@ -40,8 +40,7 @@ public class UniversityController {
     }
 
     @PutMapping("/update/{courseCode}")
-    public ResponseEntity<University> updateCourse(
-            @PathVariable int courseCode,
+    public ResponseEntity<University> updateCourse(@PathVariable int courseCode,
             @RequestBody University updatedCourse) {
 
         return ResponseEntity.ok(
