@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class StudentsService {
+public class StudentsServiceImpl implements StudentService{  //Loose Coupling
     public static List<Students> sList= new ArrayList<>();
 
     static{
@@ -18,11 +18,13 @@ public class StudentsService {
     }
 
     //GetAll
+    @Override
     public List<Students> getAll(){
         return sList;
     }
 
     //By ID
+    @Override
     public Students getById(int id){
         for(Students s : sList){
             if(s.getId() == id){
@@ -33,12 +35,14 @@ public class StudentsService {
     }
 
     //Create
+    @Override
     public Students addStudents(Students students){
         sList.add(students);
         return students;
     }
 
     //Update
+    @Override
     public Students updateStudents(int id,Students newStudent){
         for(Students s:sList){
             if(s.getId() == id){
@@ -52,6 +56,7 @@ public class StudentsService {
     }
 
     //Delete
+    @Override
     public String deleteStudents(int id){
         Students found = null;
         for(Students s : sList){

@@ -2,7 +2,7 @@ package com.eduhub.eduhub_backend.Controller;
 
 
 import com.eduhub.eduhub_backend.Component.Students;
-import com.eduhub.eduhub_backend.Service.StudentsService;
+import com.eduhub.eduhub_backend.Service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +14,7 @@ import java.util.List;
 public class StudentsController {
 
     @Autowired
-    StudentsService students;
+    private StudentService students;
 
     @GetMapping("/all")
     public ResponseEntity<List<Students>> getALl(){
@@ -40,5 +40,4 @@ public class StudentsController {
     public ResponseEntity<String> deleteS(@PathVariable int id){
         return ResponseEntity.ok(students.deleteStudents(id));
     }
-    
 }
