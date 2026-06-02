@@ -42,4 +42,14 @@ public class HomeController {
         return product.getProduct();
     }
 
+    @GetMapping("welcome")
+    public String getW(){
+        return "Welcome";
+    }
+
+    @GetMapping("home")
+    public String getH(){
+        return "SpringBoot";
+    }
+    
 }

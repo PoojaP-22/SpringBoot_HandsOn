@@ -47,7 +47,7 @@ public class StudentsServiceImpl implements StudentService{  //Loose Coupling
         for(Students s:sList){
             if(s.getId() == id){
                 s.setName(newStudent.getName());
-                s.setDept(newStudent.getDept());
+                s.setDepartment(newStudent.getDepartment());
                 s.setCgpa(newStudent.getCgpa());
                 return s;
             }
